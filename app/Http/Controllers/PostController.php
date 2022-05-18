@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')
+            ->only(['create', 'store', 'edit', 'update', 'destroy']) // methods that Authentication will be required for
+        ;
+    }
+
     /**
      * Display a listing of the resource.
      *
