@@ -24,10 +24,12 @@ class UsersTableSeeder extends Seeder
         //     ]
         // );
 
+        $usersCount = max((int) $this->command->ask('How many users would you like?', 20), 1);
+
         # Add 1 specific user - but using 'state' named in this case: "newJohnDoeUser"
         \App\Models\User::factory()->newJohnDoeUser()->create();
 
         # Add 10 random users
-        \App\Models\User::factory(20)->create();
+        \App\Models\User::factory($usersCount)->create();
     }
 }

@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        if ($this->command->confirm('Do you want to refrtesh database?'/*, true*/)){ // true - for default value 'yes'
+            $this->command->call('migrate:refresh');
+            $this->command->info('Database was regreshed');
+        }
+
         # Calls specific seeders in order (specified in array)
         $this->call([
             UsersTableSeeder::class,
