@@ -21,8 +21,9 @@ class BlogPost extends Model
     {
         parent::boot();
 
-        static::deleting(function (BlogPost $blogPost){
-            $blogPost->comments()->delete(); // deletes all comments - before deleting BlogPost
-        });
+        # Based on Events (not based on migration)
+        // static::deleting(function (BlogPost $blogPost){
+        //     $blogPost->comments()->delete(); // deletes all comments - before deleting BlogPost
+        // });
     }
 }
