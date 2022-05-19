@@ -16,4 +16,13 @@ class BlogPost extends Model
         return $this->hasMany(Comment::class);
     }
     
+    // function name matters
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function (BlogPost $blogPost){
+            $blogPost->comments()->delete(); // deletes all comments - before deleting BlogPost
+        });
+    }
 }
