@@ -7,8 +7,11 @@
     <p>{{ $post->content }}</p>
     <p>Added {{ $post->created_at->diffForHumans() }}</p>
 
-    @if(now()->diffInMinutes($post->created_at) < 5)
-        <div class="alert alert-info">New!</div>
+    @if(now()->diffInMinutes($post->created_at) < 20)
+        {{-- <div class="badge badge-success">New!</div> --}}
+        @component('badge', ['type' => 'primary'])
+            Brand new Post!
+        @endcomponent
     @endif
 
     <h4>Comments</h4>
