@@ -44,10 +44,8 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             @foreach ($mostActive as $user)
-                                <li class="list-group-item">
-                                    <a href="{{ route('posts.show', ['post' => $post->id]) }}">
-                                        {{ $user->name }}
-                                    </a>
+                                <li class="list-group-item">                                    
+                                    {{ $user->name }}                                    
                                 </li>
                             @endforeach
                         </ul>
