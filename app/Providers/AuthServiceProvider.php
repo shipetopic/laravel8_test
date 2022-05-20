@@ -43,11 +43,12 @@ class AuthServiceProvider extends ServiceProvider
         // comments.create, comments.update etc.
 
         # 'before' gate is always called first - so it can intercept other gates
-        // Gate::before(function ($user, $ability){
-        //     if ($user->is_admin && in_array($ability, ['posts.update', 'posts.delete'])){
-        //         return true;
-        //     }
-        // });
+        // NOTE: this is global override for ALL models; if need specific model: use specific policy class
+        Gate::before(function ($user, $ability){
+            if ($user->is_admin && in_array($ability, ['update'/*, 'delete'*/])){
+                return true;
+            }
+        });
 
         # 'after' gate is called AFTER and is final step to authorize action
         // Gate::after(function ($user, $ability, $result){
