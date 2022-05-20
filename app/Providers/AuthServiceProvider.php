@@ -14,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\BlogPost' => 'App\Policies\BlogPostPolicy',
     ];
 
     /**
@@ -37,8 +38,9 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('posts.update', [BlogPostPolicy::class, 'update']);
         // Gate::define('posts.delete', [BlogPostPolicy::class, 'delete']);
 
-        Gate::resource('posts', BlogPostPolicy::class);
+        // Gate::resource('posts', BlogPostPolicy::class);
         // posts.create posts.update posts.delete posts.view
+        // comments.create, comments.update etc.
 
         # 'before' gate is always called first - so it can intercept other gates
         // Gate::before(function ($user, $ability){
