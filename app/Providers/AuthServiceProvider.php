@@ -32,5 +32,21 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-post', function ($user, $post){
             return $user->id == $post->user_id;
         });
+
+        # 'before' gate is always called first - so it can intercept other gates
+        Gate::before(function ($user, $ability){
+            if ($user->is_admin && in_array($ability, ['update-post', 'delete-post'])){
+                return true;
+            }
+        });
+
+        # 'after' gate is called AFTER and is final step to authorize action
+        Gate::after(function ($user, $ability, $result){
+            if ($user->is_admin && in_array($ability, ['update-post', 'delete-post'])){
+                return true;
+            }
+        });
+
+
     }
 }
