@@ -44,7 +44,7 @@ class PostController extends Controller
         // comments_count
         return view(
             'posts.index', 
-            ['posts' => BlogPost::withCount('comments')->get()]
+            ['posts' => BlogPost::latest()->withCount('comments')->get()]
         );
     }
 
@@ -111,7 +111,12 @@ class PostController extends Controller
         // abort_if(!isset($this->posts[$id]), 404);
     
         // return view('posts.show', ['post' => BlogPost::findOrFail($id)]);
+
         return view('posts.show', ['post' => BlogPost::with('comments')->findOrFail($id)]);
+
+        // return view('posts.show', ['post' => BlogPost::with(['comments' => function ($query){
+        //     return $query->latest();
+        // }])->findOrFail($id)]);
     }
 
     /**
