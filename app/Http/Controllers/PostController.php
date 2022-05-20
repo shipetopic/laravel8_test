@@ -55,6 +55,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        // $this->authorize('posts.create');
         return view('posts.create');
     }
 
@@ -122,9 +123,9 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('update-post', $post);
+        $this->authorize('posts.update', $post);
 
-        // if (Gate::denies('update-post', $post)){ // user object passed automatically by laravel 
+        // if (Gate::denies('posts.update', $post)){ // user object passed automatically by laravel 
         //     abort(403, "You can't edit this blog post!");
         // }; 
 
@@ -142,8 +143,8 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('update-post', $post);
-        // if (Gate::denies('update-post', $post)){ // user object passed automatically by laravel 
+        $this->authorize('posts.update', $post);
+        // if (Gate::denies('posts.update', $post)){ // user object passed automatically by laravel 
         //     abort(403, "You can't edit this blog post!");
         // }; 
 
@@ -166,8 +167,8 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('delete-post', $post);
-        // if (Gate::denies('delete-post', $post)){ // user object passed automatically by laravel 
+        $this->authorize('posts.delete', $post);
+        // if (Gate::denies('posts.delete', $post)){ // user object passed automatically by laravel 
         //     abort(403, "You can't delete this blog post!");
         // }; 
 
