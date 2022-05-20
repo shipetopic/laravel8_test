@@ -49,7 +49,7 @@ class AuthServiceProvider extends ServiceProvider
         # 'before' gate is always called first - so it can intercept other gates
         // NOTE: this is global override for ALL models; if need specific model: use specific policy class
         Gate::before(function ($user, $ability){
-            if ($user->is_admin && in_array($ability, ['update'/*, 'delete'*/])){
+            if ($user->is_admin && in_array($ability, ['update', 'delete'])){
                 return true;
             }
         });
