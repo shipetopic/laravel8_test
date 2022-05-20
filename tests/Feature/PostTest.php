@@ -95,10 +95,11 @@ class PostTest extends TestCase
 
     public function testUpdateValid()
     {
-        // Arrange
-        $post = $this->createDummyBlogPost();
+        # Arrange
+        $user = $this->user();
+        $post = $this->createDummyBlogPost($user->id);
 
-        // Act
+        # Act
         // $response = $this->get('/posts');
 
         // $this->assertDatabaseHas('blog_posts', $post->toArray()); // failing because list of fields in different order
@@ -108,8 +109,10 @@ class PostTest extends TestCase
             'content' => 'Content was changed',
         ];
 
-        # Action / Assert
-        $this->put("/posts/{$post->id}", $params)
+        # Assert
+        $this
+            ->actingAs($user)
+            ->put("/posts/{$post->id}", $params)
             ->assertStatus(302)
             ->assertSessionHas('status');
         
@@ -147,7 +150,7 @@ class PostTest extends TestCase
 
     }
 
-    private function createDummyBlogPost(){
+    private function createDummyBlogPost($userId = null){
         $user = $this->user();
         $this->actingAs($user);
         // $post = new BlogPost();
@@ -155,8 +158,9 @@ class PostTest extends TestCase
         // $post->content = 'Content of the blog post';
         // $post->save();
 
-        return BlogPost::factory()->newTitle()->create();
-        // return BlogPost::factory()->configure('new-title')->create(); // WRONG
+        // return BlogPost::factory()->newTitle()->create();
+        return BlogPost::factory()->newTitle()->create(['user_id' => $userId ?? $this->user()->id]);
+        
 
         // return $post;
     }
