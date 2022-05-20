@@ -41,12 +41,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         # 'after' gate is called AFTER and is final step to authorize action
-        Gate::after(function ($user, $ability, $result){
-            if ($user->is_admin && in_array($ability, ['update-post', 'delete-post'])){
-                return true;
-            }
-        });
-
-
+        // Gate::after(function ($user, $ability, $result){
+        //     if ($user->is_admin && in_array($ability, ['update-post', 'delete-post'])){
+        //         return true;
+        //     }
+        // });
     }
 }
