@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostTagController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,5 +34,7 @@ Route::get('/secret', [HomeController::class, 'secret'])->name('home.secret')
 ;
 Route::resource('/posts', PostController::class);
 // Route::resource('/posts', [PostController::class]);
+
+Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])->name('posts.tags.index');
 
 Auth::routes();
