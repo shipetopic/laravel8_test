@@ -20,6 +20,8 @@
         Updated
     </x-updated>
 
+    <x-tags :tags='$post->tags'></x-tags>
+
     <p>Currently read by {{ $counter }} people</p>
     
     <h4>Comments</h4>
