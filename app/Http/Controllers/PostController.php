@@ -135,7 +135,64 @@ class PostController extends Controller
             return BlogPost::with('comments')->findOrFail($id);
         });
 
-        return view('posts.show', ['post' => $blogPost]);
+
+        if (true){
+            $sessionId = session()->getId();
+            $usersKey = "blog-post-{$id}-users";
+            $users = Cache::get($usersKey, []);
+            $now = now();
+            $users[$sessionId] = $now; // add/update current user & time
+            $currentUsers = [];
+     
+            foreach($users as $session => $lastVisit) {
+                if ($now->diffInMinutes($lastVisit) < 1) {
+                    $currentUsers[$session] = $lastVisit; 
+                }
+            }
+     
+            Cache::put($usersKey, $currentUsers);
+            $counter = count($currentUsers);
+        } else {
+            # alternative way
+            $sessionId = session()->getId();
+            $counterKey = "blog-post-{$id}-counter";
+            $usersKey = "blog-post-{$id}-users";
+    
+            $users = Cache::get($usersKey, []);
+            $usersUpdate = [];
+            $difference = 0;
+            $now = now();
+    
+            foreach ($users as $session => $lastVisit) {
+                if ($now->diffInMinutes($lastVisit) >= 1){
+                    $difference--;
+                } else {
+                    $userUpdate[$session] = $lastVisit;
+                }
+            }
+    
+            if (!array_key_exists($sessionId, $users)
+                || $now->diffInMinutes($users[$sessionId]) >= 1
+            ){
+                $difference++;
+            }
+    
+            $userUpdate[$sessionId] = $now;
+            Cache::forever($usersKey, $usersUpdate);
+            if (Cache::has($counterKey)){
+                Cache::forever($counterKey, 1);
+            } else {
+                Cache::increment($counterKey, $difference);
+            }
+    
+            $counter = Cache::get($counterKey);
+        }
+
+
+        return view('posts.show', [
+            'post' => $blogPost,
+            'counter' => $counter
+        ]);
 
         // return view('posts.show', ['post' => BlogPost::with(['comments' => function ($query){
         //     return $query->latest();
