@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\Comment;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -18,6 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Cache::tags('blog-post')->flush();
+
         if ($this->command->confirm('Do you want to refrtesh database?'/*, true*/)){ // true - for default value 'yes'
             $this->command->call('migrate:refresh');
             $this->command->info('Database was regreshed');
