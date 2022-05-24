@@ -121,6 +121,7 @@ class PostController extends Controller
             $path = $request->file('thumbnail')->store('thumbnails');
 
             $post->image()->save(
+                // make instead of create
                 Image::make(['path' => $path])
             );
         }
