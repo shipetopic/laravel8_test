@@ -73,7 +73,6 @@ class BlogPost extends Model
         # Based on Events (not based on migration)
         static::deleting(function (BlogPost $blogPost){
             $blogPost->comments()->delete(); // deletes all comments - before deleting BlogPost
-
             Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
         });
 

@@ -34,8 +34,6 @@
 
         <p>{{ $post->content }}</p>
 
-        <img src="{{ $post->image->url() }}"/>
-
         {{-- <p>Added {{ $post->created_at->diffForHumans() }}</p> --}}
         <x-updated :date='$post->created_at' :name='$post->user->name'>
         </x-updated>

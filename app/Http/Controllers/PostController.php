@@ -274,6 +274,25 @@ class PostController extends Controller
 
         $validated = $request->validated();
         $post->fill($validated);
+
+        # Handle Image (Thumbnail)
+        if ($request->hasFile('thumbnail')){
+            $path = $request->file('thumbnail')->store('thumbnails');
+
+            if ($post->image){
+                # Delete previous image
+                Storage::delete($post->image->path);
+
+                # Override path to new image and updatge path in DB
+                $post->image->path = $path;
+                $post->image->save();
+            } else {
+                $post->image()->save(
+                    Image::create(['path' => $path])
+                );
+            }
+        }
+
         $post->save();
 
         $request->session()->flash('status', 'Blog post was updated!');
