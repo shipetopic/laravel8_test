@@ -22,7 +22,7 @@ class BlogPost extends Model
 
         // return $this->hasMany(Comment::class);
 
-        return $this->hasMany(Comment::class)->latest();
+        return $this->morphMany(Comment::class, 'commentable')->latest();
     }
 
     public function user()
