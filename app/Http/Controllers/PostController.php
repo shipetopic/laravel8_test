@@ -61,11 +61,7 @@ class PostController extends Controller
         return view(
             'posts.index', 
             [
-                'posts' => BlogPost::latest()
-                    ->withCount('comments')
-                    ->with('user')
-                    ->with('tags')
-                    ->get(),
+                'posts' => BlogPost::latestWithRelations()->get(),
                 // 'mostCommented' => $mostCommented,
                 // 'mostActive' => $mostActive,
                 // 'mostActiveLastMonth' => $mostActiveLastMonth,
