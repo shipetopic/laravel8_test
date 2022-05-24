@@ -43,6 +43,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
