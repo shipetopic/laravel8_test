@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -115,19 +117,33 @@ class PostController extends Controller
         // $post2 = BlogPost::make(); // just fillout
         // $post2->save();
 
-        // dump($request->hasFile('thumbnail'));        
-        $hasFile = $request->hasFile('thumbnail');
+        if ($request->hasFile('thumbnail')){
+            $path = $request->file('thumbnail')->store('thumbnails');
 
-        dump($hasFile);
-        if ($hasFile){            
-            $file = $request->file('thumbnail');
-            dump($file);
-            dump($file->getClientMimeType());
-            dump($file->getClientOriginalExtension());
-
-            dump($file->store('thumbnails'));
+            $post->image()->save(
+                Image::create(['path' => $path])
+            );
         }
-        die;
+
+        // dump($request->hasFile('thumbnail'));        
+        // $hasFile = $request->hasFile('thumbnail');
+        // dump($hasFile);
+        // if ($hasFile){            
+        //     $file = $request->file('thumbnail');
+        //     dump($file);
+        //     dump($file->getClientMimeType());
+        //     dump($file->getClientOriginalExtension());
+
+        //     // dump($file->store('thumbnails'));
+        //     // dump(Storage::disk('public')->put('thumbnails', $file));
+
+        //     $name1 = dump($file->storeAs('thumbnails', $post->id .'.'. $file->guessExtension()));
+        //     $name2 = dump(Storage::disk('local')->putFileAs('thumbnails', $file, $post->id .'.'. $file->guessExtension()));
+
+        //     dump(Storage::url($name1));
+        //     dump(Storage::disk('local')->url($name2));
+        // }
+        // die;
 
         $request->session()->flash('status', 'The blog post was created!');
 
