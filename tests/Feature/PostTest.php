@@ -42,7 +42,7 @@ class PostTest extends TestCase
         // factory(Comment::class)->create(['blog_post_id' => 2]); // NOT WORKING IN THAT VERSION OF LARAVEL
         Comment::factory(4)->create([
             'commentable_id' => $post->id,
-            'commentable_type' => BlogPost::class,
+            'commentable_type' => 'App\Models\BlogPost',
             'user_id' => $user->id
         ]);
 
